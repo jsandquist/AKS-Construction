@@ -28,6 +28,7 @@ jobs:
         run: echo "Resuable workflows can't be directly passed ENV/INPUTS (yet)"
 
   Post-Deploy:
+    if: false
     needs: [ReusableWF]
     uses: azure/aks-construction/.github/workflows/PostDeploy.yml@0.4.3
     with:
@@ -180,22 +181,23 @@ jobs:
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
-  # deploy-java-app-certmgr:
-  #   uses: azure/aks-construction/.github/workflows/AppDeploy_JavaApp.yml@0.3.1
-  #   with:
-  #     RG: Automation-Actions-AksDeployCI #$RG
-  #     AKSNAME: aks-Byo
-  #     DNSDOMAIN: azdemo.co.uk
-  #     DNSRG: domainssl
-  #     DNSRECORDNAME: openjdk-demo
-  #     AKVNAME: kv-Byo
-  #     AGNAME: agw-Byo
-  #     APPNAME: openjdk-demo
-  #     FRONTENDCERTTYPE: certmanager-staging
-  #     MINIHELMBRANCH: main
-  #     UNINSTALLAFTERVERIFY: false
-  #   secrets:
-  #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+  SmokeTest_JavaApp-certmgr:
+    needs: [ReusableWF]
+    uses: azure-samples/java-aks-keyvault-tls/.github/workflows/deployapp.yml@gb-helmdockerimage
+    with:
+      RG: ${{ needs.ReusableWF.outputs.RG }} #Automation-Actions-AksDeployCI #'${{ env.RG }}' There seems to be an issue passing Env variables in reusable workflows
+      AKSNAME: aks-Byo
+      DNSDOMAIN: azdemo.co.uk
+      DNSRG: domainssl
+      DNSRECORDNAME: openjdk-demo
+      AKVNAME: kv-Byo
+      AGNAME: agw-Byo
+      APPNAME: openjdk-demo
+      FRONTENDCERTTYPE: certmanager-staging
+      FORCEHELMCLEANINSTALL: true
+      UNINSTALLAFTERVERIFY: false
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
   # deploy-java-app-certmgr2:
   #   needs: [deploy-java-app-certmgr, deploy-java-app-kvssl]
