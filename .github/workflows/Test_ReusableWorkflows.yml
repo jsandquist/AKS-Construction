@@ -185,6 +185,7 @@ jobs:
     needs: [ReusableWF]
     uses: azure-samples/java-aks-keyvault-tls/.github/workflows/deployapp.yml@gb-helmdockerimage
     with:
+      REPOREF: gb-helmdockerimage
       RG: ${{ needs.ReusableWF.outputs.RG }} #Automation-Actions-AksDeployCI #'${{ env.RG }}' There seems to be an issue passing Env variables in reusable workflows
       AKSNAME: aks-Byo
       DNSDOMAIN: azdemo.co.uk
