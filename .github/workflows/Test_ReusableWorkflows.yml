@@ -27,6 +27,17 @@ jobs:
       - name: Dummy step
         run: echo "Resuable workflows can't be directly passed ENV/INPUTS (yet)"
 
+  AzureVoteApp1:
+    needs: [ReusableWF]
+    uses: aks-baseline-automation/.github/workflows/App-AzureVote-Actions.yml@gb-builtinactions-azurevote
+    with:
+      RG: ${{ needs.ReusableWF.outputs.RG }}
+      AKSNAME: aks-Byo
+      APPNAME: baseVote1
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+
   Post-Deploy:
     if: false
     needs: [ReusableWF]
@@ -182,6 +193,7 @@ jobs:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
   SmokeTest_JavaApp-certmgr:
+    if: false
     needs: [ReusableWF]
     uses: azure-samples/java-aks-keyvault-tls/.github/workflows/deployapp.yml@gb-helmdockerimage
     with:
