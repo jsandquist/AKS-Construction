@@ -29,11 +29,13 @@ jobs:
 
   AzureVoteApp1:
     needs: [ReusableWF]
-    uses: azure/aks-baseline-automation/.github/workflows/App-AzureVote-Actions.yml@gb-builtinactions-azurevote
+    uses: Gordonby/WorkflowScratchpad/blob/main/.github/workflows/BuildAndDeployK8SApp.yml@gb-k8smanifests
     with:
       RG: ${{ needs.ReusableWF.outputs.RG }}
       AKSNAME: aks-Byo
+      ACRNAME: crByoaib4mctxgofyo
       APPNAME: baseVote1
+      
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
