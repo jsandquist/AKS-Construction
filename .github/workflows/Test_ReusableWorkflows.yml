@@ -34,7 +34,7 @@ jobs:
       RG: ${{ needs.ReusableWF.outputs.RG }}
       AKSNAME: aks-Byo
       ACRNAME: crByoaib4mctxgofyo
-      APPNAME: baseVote1
+      APPNAME: basevote
       
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
