@@ -29,7 +29,7 @@ jobs:
 
   AzureVoteApp1:
     needs: [ReusableWF]
-    uses: Gordonby/WorkflowScratchpad/.github/workflows/BuildAndDeployK8SApp.yml@gb-k8smanifests
+    uses: Gordonby/WorkflowScratchpad/.github/workflows/BuildAndDeployK8SApp.yml@main
     with:
       RG: ${{ needs.ReusableWF.outputs.RG }}
       AKSNAME: aks-Byo
